@@ -1,13 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 
+type Ticket = {
+  id: number;
+  name: string;
+  status: string;
+  email: string;
+  description: string;
+};
+
+// Define the type for response texts
+type ResponseTexts = {
+  [key: string]: string;
+};
 export default function Admin() {
-    const [tickets, setTickets] = useState([]);
-    const [selectedTicketId, setSelectedTicketId] = useState(null);
-    const [responses, setResponses] = useState({});
-    const [showResponsesForTicketId, setShowResponsesForTicketId] = useState(null);
-    const [responseTexts, setResponseTexts] = useState({}); // State to manage response texts for each ticket
-    const [status, setStatus] = useState(''); // State to manage the ticket status update
+    const [tickets, setTickets] = useState<Ticket[]>([]);
+    const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
+    const [responses, setResponses] = useState<{ [key: string]: any[] }>({}); // Assuming response structure is an array
+    const [showResponsesForTicketId, setShowResponsesForTicketId] = useState<number | null>(null);
+    const [responseTexts, setResponseTexts] = useState<ResponseTexts>({});
+    const [status, setStatus] = useState('');
 
     useEffect(() => {
         const fetchTickets = async () => {
@@ -19,13 +31,14 @@ export default function Admin() {
         fetchTickets();
     }, []);
 
-    const handleResponseChange = (ticketId, text) => {
-        setResponseTexts(prev => ({ ...prev, [ticketId]: text }));
+    const handleResponseChange = (ticketId: number, text: string) => {
+        setResponseTexts(prev => ({ ...prev, [ticketId.toString()]: text }));
     };
+    
 
-    const handleResponseSubmit = async (e, ticketId) => {
-        e.preventDefault(); // Prevent form submission from reloading the page
-        const description = responseTexts[ticketId];
+    const handleResponseSubmit = async (e: FormEvent<HTMLFormElement>, ticketId: number) => {
+        e.preventDefault();
+        const description = responseTexts[ticketId.toString()];
         try {
             await fetch(`https://ticketing-backend-ocr8.onrender.com/api/v1/tickets/${ticketId}/responses`, {
                 method: 'POST',
@@ -41,11 +54,11 @@ export default function Admin() {
         }
     };
 
-    const handleStatusChange = (e) => {
+    const handleStatusChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setStatus(e.target.value);
     };
 
-    const handleStatusUpdate = async (ticketId) => {
+    const handleStatusUpdate = async (ticketId: number) => {
         try {
             const response = await fetch(`https://ticketing-backend-ocr8.onrender.com/api/v1/tickets/${ticketId}`, {
                 method: 'PUT',
@@ -73,7 +86,7 @@ export default function Admin() {
         }
     };
 
-    const handleShowResponses = async (ticketId) => {
+    const handleShowResponses = async (ticketId: number) => {
         if (showResponsesForTicketId === ticketId) {
             setShowResponsesForTicketId(null);
             setResponses(prev => ({ ...prev, [ticketId]: [] }));

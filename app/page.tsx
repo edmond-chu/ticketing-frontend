@@ -1,5 +1,6 @@
 "use client";
-import { useState } from 'react';
+
+import { useState, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -9,31 +10,37 @@ export default function Home() {
     description: '',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setTicket({
-      ...ticket,
+    setTicket(prevTicket => ({
+      ...prevTicket,
       [name]: value,
-    });
+    }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Submitting ticket', ticket);
 
+    const backendUrl = 'https://ticketing-backend-ocr8.onrender.com/api/v1/tickets';
+
     try {
-      const response = await fetch('https://ticketing-backend-ocr8.onrender.com/api/v1/tickets', {
+      const response = await fetch(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(ticket),
       });
+      console.log('Response:', response);
 
       if (response.ok) {
         setTicket({ name: '', email: '', description: '' });
         alert("Ticket submitted successfully!");
       } else {
+        // Log the response to see what went wrong
+        const responseBody = await response.json();
+        console.error('Failed to submit ticket:', responseBody);
         alert("Failed to submit ticket. Please try again.");
       }
     } catch (error) {
