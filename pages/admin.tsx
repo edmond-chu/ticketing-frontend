@@ -42,7 +42,7 @@ export default function Admin() {
 
     const fetchResponses = async (ticketId:number) => {
         try {
-            const res = await fetch(`http://localhost:5002/api/v1/tickets/${ticketId}/responses`);
+            const res = await fetch(url + `/api/v1/tickets/${ticketId}/responses`);
             const data = await res.json();
             setResponses({ ...responses, [ticketId]: data });
         } catch (error) {
@@ -54,7 +54,7 @@ export default function Admin() {
     const handleSearch = async () => {
         if (!searchQuery.trim()) return; // Ignore empty search queries
 
-        const res = await fetch(`http://localhost:5002/api/v1/tickets/${searchQuery}`);
+        const res = await fetch(url + `/api/v1/tickets/${searchQuery}`);
         if (res.ok) {
             const data = await res.json();
             setSearchedTicket(data);
