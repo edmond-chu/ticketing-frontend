@@ -1,6 +1,8 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 import adminstyle from '../styles/adminstyle.module.css'; 
+import { useRouter } from 'next/router';
+
 
 type Ticket = {
   id: number;
@@ -13,10 +15,17 @@ type ResponseTexts = {
   [key: string]: string;
 };
 export default function Admin() {
+
+    const router = useRouter();
+
+  // Redirect to login page if not authenticated
+    useEffect(() => {
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        if (!isAuthenticated) {
+        router.push('/login');
+        }
+    }, [router]);
     const url = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-
-
 
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
@@ -70,6 +79,11 @@ export default function Admin() {
     const handleReturnToAdminPage = () => {
         setSearchedTicket(null);
         setSearchQuery('');
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("isAuthenticated");
+        router.push('/login');
     };
 
 
@@ -146,6 +160,7 @@ export default function Admin() {
             <div className={adminstyle.backToHome}>
                 <Link href="/"><button className="mt-4">Back to Home</button></Link>
             </div>
+            <button onClick={handleLogout}>Logout</button>
             <div className={adminstyle.searchContainer}>
                 <input
                     type="text"
