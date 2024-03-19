@@ -8,7 +8,6 @@ type Ticket = {
   email: string;
   description: string;
 };
-// Define the type for response texts
 type ResponseTexts = {
   [key: string]: string;
 };
@@ -104,7 +103,6 @@ export default function Admin() {
             });
 
             if (response.ok) {
-                // Update the ticket status locally
                 const updatedTickets = tickets.map((ticket) => {
                     if (ticket.id === ticketId) {
                         return { ...ticket, status };
