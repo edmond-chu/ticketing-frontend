@@ -1,5 +1,6 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
+import adminstyle from '../styles/adminstyle.module.css'; 
 
 type Ticket = {
   id: number;
@@ -12,7 +13,9 @@ type ResponseTexts = {
   [key: string]: string;
 };
 export default function Admin() {
-    const url = 'https://ticketing-backend-ocr8.onrender.com';
+    const url = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+
 
 
     const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -138,12 +141,12 @@ export default function Admin() {
     };
 
     return (
-        <main className="admin-container">
+        <main className={adminstyle.adminContainer}>
             <h1>Admin Dashboard</h1>
-            <div className="back-to-home">
+            <div className={adminstyle.backToHome}>
                 <Link href="/"><button className="mt-4">Back to Home</button></Link>
             </div>
-            <div className="search-container">
+            <div className={adminstyle.searchContainer}>
                 <input
                     type="text"
                     placeholder="Search by Ticket ID..."
@@ -153,9 +156,8 @@ export default function Admin() {
                 <button onClick={handleSearch}>Search</button>
             </div>
             {searchedTicket ? (
-                // Display the searched ticket details
                 <div>
-                    <div className="ticket-details">
+                    <div className={adminstyle.ticketDetails}>
                         <h2>{searchedTicket.name} ({searchedTicket.status})</h2>
                         <p>Ticket ID: {searchedTicket.id}</p>
                         <p>Email: {searchedTicket.email}</p>
@@ -166,14 +168,12 @@ export default function Admin() {
                                 <li key={index}>{response.description} {new Date(response.created_at).toLocaleString()}</li>
                             ))}
                         </ul>
-                        {/* Display responses or any additional information here */}
                     </div>
                     <button onClick={handleReturnToAdminPage}>Back to Admin Page</button>
                 </div>
             ) : (
-                // Display all tickets if no search has been performed or after clearing the search
                 tickets.map((ticket) => (
-                    <div key={ticket.id} className="ticket-container">
+                    <div key={ticket.id} className={adminstyle.ticketContainer}>
                         <h2>{ticket.name} ({ticket.status})</h2>
                         <p>Ticket ID: {ticket.id}</p>
                         <p>Email: {ticket.email}</p>
@@ -181,7 +181,7 @@ export default function Admin() {
                         <button onClick={() => setSelectedTicketId(selectedTicketId === ticket.id ? null : ticket.id)}>
                             {selectedTicketId === ticket.id ? 'Hide Ticket Description' : 'Show Ticket Description'}
                         </button>
-                        <div className="status-update">
+                        <div className={adminstyle.statusUpdate}>
                             <label htmlFor={`status-select-${ticket.id}`}>Status:</label>
                             <select
                                 id={`status-select-${ticket.id}`}
@@ -194,7 +194,7 @@ export default function Admin() {
                             </select>
                             <button onClick={() => handleStatusUpdate(ticket.id)}>Update Status</button>
                         </div>
-                        <form onSubmit={(e) => handleResponseSubmit(e, ticket.id)} className="response-form">
+                        <form onSubmit={(e) => handleResponseSubmit(e, ticket.id)} className={adminstyle.responseForm}>
                             <textarea
                                 value={responseTexts[ticket.id] || ''}
                                 onChange={(e) => handleResponseChange(ticket.id, e.target.value)}
@@ -215,26 +215,7 @@ export default function Admin() {
                     </div>
                 ))
             )}
-            <style jsx>{`
-                .admin-container {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                }
-                .ticket-container {
-                    border: 1px solid #ccc;
-                    padding: 20px;
-                    margin-bottom: 20px;
-                    width: 80%;
-                }
-                .status-update {
-                    margin-top: 10px;
-                }
-                .back-to-home {
-                    margin-top: 20px;
-                }
-            `}</style>
         </main>
     );
+    
 }

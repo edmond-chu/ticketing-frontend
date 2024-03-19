@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
+import homestyle from '../styles/homestyle.module.css'; // Adjust this path to where your styles.module.css file is located
 
 export default function Home() {
   const [ticket, setTicket] = useState({
@@ -22,11 +23,13 @@ export default function Home() {
     e.preventDefault();
     console.log('Submitting ticket', ticket);
 
-    const backendUrl = 'https://ticketing-backend-ocr8.onrender.com/api/v1/tickets';
+    
+    // Example backend URL, replace with your actual backend endpoint
+    const url = process.env.NEXT_PUBLIC_BACKEND_URL + '/api/v1/tickets';
 
 
     try {
-      const response = await fetch(backendUrl, {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,7 +42,6 @@ export default function Home() {
         setTicket({ name: '', email: '', description: '' });
         alert("Ticket submitted successfully!");
       } else {
-        // Log the response to see what went wrong
         const responseBody = await response.json();
         console.error('Failed to submit ticket:', responseBody);
         alert("Failed to submit ticket. Please try again.");
@@ -51,67 +53,27 @@ export default function Home() {
   };
 
   return (
-    <main className="container">
+    <main className={homestyle.container}>
       <h1>Submit a Support Ticket</h1>
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} className={homestyle.form}>
 
-        <div className="input-group">
-          <label htmlFor="name">Name</label>
+        <div className={homestyle.inputGroup}>
+          <label htmlFor="name">Name </label>
           <input type="text" id="name" name="name" value={ticket.name} onChange={handleChange} style={{color: "black"}} required />
         </div>
-        <div className="input-group">
-          <label htmlFor="email">Email</label>
+        <div className={homestyle.inputGroup}>
+          <label htmlFor="email">Email </label>
           <input type="email" id="email" name="email" value={ticket.email} onChange={handleChange} style={{color: "black"}} required />
         </div>
-        <div className="input-group">
-          <label htmlFor="description">Description</label>
+        <div className={homestyle.inputGroup}>
+          <label htmlFor="description">Description </label>
           <textarea id="description" name="description" value={ticket.description} onChange={handleChange} style={{color: "black"}} required></textarea>
         </div>
-        <button type="submit" className="submit-btn">Submit Ticket</button>
+        <button type="submit" className={homestyle.submitBtn}>Submit Ticket</button>
       </form>
       <Link href="/admin" passHref>
-        <button type="button" className="admin-btn">Go to Admin Page</button>
+        <button type="button" className={homestyle.adminBtn}>Go to Admin Page</button>
       </Link>
-
-      <style jsx>{`
-        .container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-        }
-        .form {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          width: 100%;
-          max-width: 400px;
-        }
-        .input-group label {
-          margin-bottom: 5px;
-        }
-        .input-group input,
-        .input-group textarea {
-          width: 100%;
-          padding: 8px;
-          margin-bottom: 10px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-        .submit-btn, .admin-btn {
-          width: 100%;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 4px;
-          background-color: #007bff;
-          color: white;
-          cursor: pointer;
-        }
-        .admin-btn {
-          margin-top: 20px;
-        }
-      `}</style>
     </main>
   );
 }
