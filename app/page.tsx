@@ -24,6 +24,7 @@ export default function Home() {
 
     const backendUrl = 'https://ticketing-backend-ocr8.onrender.com/api/v1/tickets';
 
+
     try {
       const response = await fetch(backendUrl, {
         method: 'POST',
