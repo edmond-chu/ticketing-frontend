@@ -142,6 +142,9 @@ export default function Admin() {
     return (
         <main className="admin-container">
             <h1>Admin Dashboard</h1>
+            <div className="back-to-home">
+                <Link href="/"><button className="mt-4">Back to Home</button></Link>
+            </div>
             <div className="search-container">
                 <input
                     type="text"
@@ -214,9 +217,6 @@ export default function Admin() {
                     </div>
                 ))
             )}
-            <div className="back-to-home">
-                <Link href="/"><button className="mt-4">Back to Home</button></Link>
-            </div>
             <style jsx>{`
                 .admin-container {
                     display: flex;
