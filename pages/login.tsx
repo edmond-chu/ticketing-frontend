@@ -1,5 +1,7 @@
 import React, { useState, FormEvent } from 'react'; // Import FormEvent
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -31,6 +33,11 @@ export default function Login() {
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       <button type="submit">Login</button>
+      <div className="back-to-home">
+      <Link href="/" passHref>
+        <button type="button">Back to Home</button>
+      </Link>
+    </div>
     </form>
   );
 }
