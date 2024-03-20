@@ -1,8 +1,7 @@
 "use client";
-
 import { useState, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
-import homestyle from '../styles/homestyle.module.css'; // Adjust this path to where your styles.module.css file is located
+import homestyle from '../styles/homestyle.module.css'; 
 
 export default function Home() {
   const [ticket, setTicket] = useState({
@@ -24,7 +23,6 @@ export default function Home() {
     console.log('Submitting ticket', ticket);
 
     
-    // Example backend URL, replace with your actual backend endpoint
     const url = process.env.NEXT_PUBLIC_BACKEND_URL + '/api/v1/tickets';
 
 

@@ -4,54 +4,54 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  min-height: 100vh; /* Ensures the container takes up the full height */
-  background-color: #000000; /* Slightly off-white background for a softer look */
+  min-height: 100vh; 
+  background-color: #000000; 
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Adjusted for optimal spacing */
+  gap: 15px;
   width: 90%;
-  max-width: 400px; /* Retain the original max width for consistency */
+  max-width: 400px;
   padding: 20px;
-  background-color: #4d7295;
+  background-color: #84c2fc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Light shadow for subtle depth */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
 }
 
 .input-group label {
-  display: block; /* Ensure labels are block-level for better control */
+  display: block; 
   margin-bottom: 5px;
-  color: #333; /* Darker label color for better readability */
+  color: #333; 
 }
 
 .input-group input,
 .input-group textarea {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc; /* Keep the border subtle */
+  border: 1px solid #ccc; 
   border-radius: 4px;
-  font-size: 16px; /* Slightly larger font size for better readability */
+  font-size: 16px; 
 }
 
 .submit-btn, .admin-btn {
   width: 100%;
-  padding: 12px 0; /* Increased padding for a taller button */
+  padding: 12px 0; 
   border: none;
   border-radius: 4px;
   background-color: #007bff;
   color: white;
   cursor: pointer;
-  transition: background-color 0.2s; /* Smooth transition for a subtle effect */
+  transition: background-color 0.2s; 
 }
 
 .submit-btn:hover, .admin-btn:hover {
-  background-color: #0056b3; /* Slightly darker on hover */
+  background-color: #0056b3; 
 }
 
 .admin-btn {
-  background-color: #3c86c7; /* Different color to distinguish it from the submit button */
+  background-color: #3c86c7; 
   margin-top: 20px;
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react'; // Import FormEvent
+import React, { useState, FormEvent } from 'react'; 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -8,9 +8,8 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => { // Specify type here
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => { 
     e.preventDefault();
-    // Your authentication logic here
     if (username === "admin" && password === "password") {
       localStorage.setItem("isAuthenticated", "true");
       router.push('/admin');
